@@ -59,7 +59,7 @@ class _AboutUsState extends State<AboutUs> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("DEV 2.0.2 20240424  "),
+                    Text("DEV 2.0.3 20240424  "),
                     Text("蔚生 DEV"),
                   ],
                 ),
