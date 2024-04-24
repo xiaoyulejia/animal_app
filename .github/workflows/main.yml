@@ -14,6 +14,8 @@ jobs:
       - uses: actions/setup-java@v4.2.1
         with:
           java-version: "11.x"
+        distribution: 
+          java-package: "jdk"
       - uses: subosito/flutter-action@v2.14.0
         with:
           channel: "stable"
