@@ -1,11 +1,9 @@
 name: Test
 
-# 工作流程触发的时机，这里是当一个版本标签推送到仓库时触发
 on:
   pull_request:
     branches:
       - main
-
 
 jobs:
   flutter_test:
