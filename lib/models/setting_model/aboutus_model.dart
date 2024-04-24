@@ -59,8 +59,8 @@ class _AboutUsState extends State<AboutUs> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("v 2.0.0 20240415  "),
-                    Text("蔚生"),
+                    Text("DEV 2.0.0 20240424  "),
+                    Text("蔚生 DEV"),
                   ],
                 ),
                 SizedBox(height: 20),
