@@ -59,7 +59,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: '蔚生',
+      title: '蔚生DEV',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: Color(0xFF3EBACE),
