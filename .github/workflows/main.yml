@@ -6,8 +6,8 @@ on:
       - main
 
 jobs:
-  flutter_test:
-    name: Run flutter  build
+  build_android:
+    name: Run flutter build for Android
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.1.3
@@ -19,6 +19,67 @@ jobs:
         with:
           channel: "stable"
       - run: flutter pub get
-      # 打包 APK
-      - run: flutter build apk --release
-      # 发布到 Release
+      - run: flutter build apk --split-per-abi
+    outputs:
+      apk_path: ${{ steps.build_android.outputs.apk_path }}
+
+  build_macos:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build macOS Package
+        run: flutter build macos
+    outputs:
+      macos_path: ${{ steps.build_macos.outputs.macos_path }}
+
+  build_windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build Windows Package
+        run: flutter build windows
+    outputs:
+      windows_path: ${{ steps.build_windows.outputs.windows_path }}
+
+  create_release:
+    needs: [build_android, build_macos, build_windows]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.sha }}
+          release_name: Release ${{ github.sha }}
+          draft: false
+          prerelease: false
+          body: |
+            Changes in this release:
+            - Added new features.
+            - Fixed some bugs.
+          files:
+            - ${{ needs.build_android.outputs.apk_path }}
+            - ${{ needs.build_macos.outputs.macos_path }}
+            - ${{ needs.build_windows.outputs.windows_path }}
